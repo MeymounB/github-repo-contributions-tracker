@@ -1,5 +1,5 @@
-import requests
 import time
+import requests
 
 HEADERS = {
     "Accept": "application/vnd.github.v3+json"
