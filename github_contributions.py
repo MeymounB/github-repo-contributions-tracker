@@ -61,7 +61,7 @@ def run_query(query, variables):
     response = requests.post(URL, json={'query': query, 'variables': variables}, headers=HEADERS)
     if response.status_code == 200:
         return response.json()
-    raise Exception(f"Query failed to run by returning code of {response.status_code}. {response.text}")
+    raise ValueError(f"Query failed to run by returning code of {response.status_code}. {response.text}")
 
 def fetch_repos():
     """Fetch all repositories the user has contributed to."""
@@ -78,12 +78,12 @@ def fetch_repos():
                 if error['type'] == 'FORBIDDEN' and 'saml_failure' in error['extensions']:
                     print(f"Skipping repository due to SAML enforcement: {error['message']}")
                 else:
-                    raise Exception(f"GraphQL query error: {error}")
+                    raise ValueError(f"GraphQL query error: {error}")
         
         repos = result['data']['viewer']['repositoriesContributedTo']['nodes']
         
         if repos is None:
-            raise Exception("Failed to fetch repositories. The 'nodes' field is None.")
+            raise ValueError("Failed to fetch repositories. The 'nodes' field is None.")
         
         all_repos.extend(repos)
         page_info = result['data']['viewer']['repositoriesContributedTo']['pageInfo']
