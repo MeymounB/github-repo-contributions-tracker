@@ -72,19 +72,19 @@ def fetch_repos():
     while has_next_page:
         variables = {"cursor": cursor}
         result = run_query(QUERY, variables)
-        
+
         if 'errors' in result:
             for error in result['errors']:
                 if error['type'] == 'FORBIDDEN' and 'saml_failure' in error['extensions']:
                     print(f"Skipping repository due to SAML enforcement: {error['message']}")
                 else:
                     raise ValueError(f"GraphQL query error: {error}")
-        
+
         repos = result['data']['viewer']['repositoriesContributedTo']['nodes']
-        
+
         if repos is None:
             raise ValueError("Failed to fetch repositories. The 'nodes' field is None.")
-        
+
         all_repos.extend(repos)
         page_info = result['data']['viewer']['repositoriesContributedTo']['pageInfo']
         cursor = page_info['endCursor']
@@ -133,10 +133,10 @@ def display_repos(sorted_by, better_readability):
     df = add_blank_rows(df, sorted_by, better_readability)
 
     print(df.to_string(index=False))
-    
+
     # Generate a graphical representation of the table
     num_rows, num_cols = df.shape
-    fig, ax = plt.subplots(figsize=(num_cols * 3, num_rows * 0.5))  # Adjust the figure size as needed
+    _, ax = plt.subplots(figsize=(num_cols * 3, num_rows * 0.5))  # Adjust the figure size as needed
     ax.axis('tight')
     ax.axis('off')
     table = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center')
