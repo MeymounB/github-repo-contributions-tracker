@@ -1,3 +1,5 @@
+<!-- markdownlint-disable MD029 -->
+
 # GitHub Repo Contributions Tracker
 
 [![fr](https://img.shields.io/badge/lang-fr-blue.svg)](https://github.com/MeymounB/GitHub-Contributions/blob/main/README.fr.md)
@@ -68,9 +70,9 @@ This script fetches all the repositories you have contributed to on GitHub and d
 
 If you prefer to install the dependencies globally and you have administrator privileges on Windows, you can run the following command:
 
-    ```bash
-    pip install -r requirements.txt --user
-    ```
+```bash
+pip install -r requirements.txt --user
+```
 
 ### Obtaining a GitHub Personal Access Token
 
@@ -82,13 +84,13 @@ To use this script, you will need a GitHub personal access token. Here are the s
 
 3. Fill in the required fields:
 
-   - **Note**: Give your token a name to recognize it easily.
-   - **Expiration**: Choose an expiration period for the token.
-   - **Select scopes**: Select the necessary permissions. The recommended scopes for this script are:
-     - `repo`
-     - `read:user`
-     - `user:email`
-     - `public_repo`
+- **Note**: Give your token a name to recognize it easily.
+- **Expiration**: Choose an expiration period for the token.
+- **Select scopes**: Select the necessary permissions. The recommended scopes for this script are:
+  - `repo`
+  - `read:user`
+  - `user:email`
+  - `public_repo`
 
 4. Click on "Generate token".
 
