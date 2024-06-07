@@ -218,3 +218,32 @@ yarn-error.log
 
 # Nuxt
 .nuxt
+
+# Angular build output
+.angular/
+
+# React Native
+.expo/
+web-build/
+.expo-shared/
+
+# Cypress
+cypress/screenshots/
+cypress/videos/
+
+# Selenium
+.selenium/
+
+# Docker
+*.dockerignore
+Dockerfile
+docker-compose.yml
+.docker/
+
+# Kubernetes
+*.k8s
+*.kube
+.kube/
+
+# Java
+*.class
