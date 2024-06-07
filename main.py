@@ -1,7 +1,6 @@
 import os
 from dotenv import load_dotenv
 import pandas as pd
-import matplotlib.pyplot as plt
 from github_api.rest import fetch_user_repos
 from github_api.graphql import fetch_contributed_repos_graphql
 from utils.display import add_blank_rows, generate_table

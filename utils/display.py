@@ -20,7 +20,7 @@ def add_blank_rows(df, sorted_by, better_readability):
 def generate_table(df):
     """Générer une représentation graphique du tableau."""
     num_rows, num_cols = df.shape
-    fig, ax = plt.subplots(figsize=(num_cols * 3, num_rows * 0.5))  # Ajuster la taille de la figure si nécessaire
+    _, ax = plt.subplots(figsize=(num_cols * 3, num_rows * 0.5))  # Ajuster la taille de la figure si nécessaire
     ax.axis('tight')
     ax.axis('off')
     table = ax.table(cellText=df.values, colLabels=df.columns, cellLoc='center', loc='center', colLoc='center')

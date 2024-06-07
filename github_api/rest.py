@@ -8,20 +8,19 @@ HEADERS = {
 def run_request(url, token, params=None):
     """Exécuter une requête API GitHub."""
     headers = {"Authorization": f"Bearer {token}", **HEADERS}
-    response = requests.get(url, headers=headers, params=params)
+    response = requests.get(url, headers=headers, params=params, timeout=10)
     if response.status_code == 200:
         return response.json()
-    elif response.status_code == 422:
+    if response.status_code == 422:
         print(f"Reached pagination limit: {response.text}")
         return None
-    elif response.status_code == 403 and response.headers.get('X-RateLimit-Remaining') == '0':
+    if response.status_code == 403 and response.headers.get('X-RateLimit-Remaining') == '0':
         reset_time = int(response.headers.get('X-RateLimit-Reset'))
         sleep_time = reset_time - time.time()
         print(f"Rate limit exceeded, sleeping for {sleep_time} seconds.")
         time.sleep(sleep_time)
         return run_request(url, token, params)
-    else:
-        raise ValueError(f"Request failed with status code {response.status_code}: {response.text}")
+    raise ValueError(f"Request failed with status code {response.status_code}: {response.text}")
 
 def fetch_user_repos(token, visibility):
     """Récupérer tous les dépôts auxquels l'utilisateur a accès."""
@@ -34,9 +33,7 @@ def fetch_user_repos(token, visibility):
         if not result:
             break
         for repo in result:
-            if (visibility == "both" or 
-               (visibility == "public" and not repo["private"]) or 
-               (visibility == "private" and repo["private"])):
+            if visibility == "both" or (visibility == "public" and not repo["private"]) or (visibility == "private" and repo["private"]):
                 repos.append({
                     "Name": repo["full_name"],
                     "Visibility": "Private" if repo["private"] else "Public",

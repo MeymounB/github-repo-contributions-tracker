@@ -7,11 +7,10 @@ HEADERS = {
 def run_graphql_query(query, token, variables=None):
     """Exécuter une requête GraphQL."""
     headers = {"Authorization": f"Bearer {token}", **HEADERS}
-    response = requests.post("https://api.github.com/graphql", json={'query': query, 'variables': variables}, headers=headers)
+    response = requests.post("https://api.github.com/graphql", json={'query': query, 'variables': variables}, headers=headers, timeout=10)
     if response.status_code == 200:
         return response.json()
-    else:
-        raise ValueError(f"Query failed with status code {response.status_code}: {response.text}")
+    raise ValueError(f"Query failed with status code {response.status_code}: {response.text}")
 
 def fetch_contributed_repos_graphql(token, visibility):
     """Récupérer tous les dépôts auxquels l'utilisateur a contribué via l'API GraphQL."""
@@ -122,9 +121,7 @@ def fetch_contributed_repos_graphql(token, visibility):
         nodes = contributions if isinstance(contributions, list) else contributions.get("nodes", [])
         for node in nodes:
             repo = node["repository"]
-            if (visibility == "both" or 
-               (visibility == "public" and not repo["isPrivate"]) or 
-               (visibility == "private" and repo["isPrivate"])):
+            if visibility == "both" or (visibility == "public" and not repo["isPrivate"]) or (visibility == "private" and repo["isPrivate"]):
                 repo_name = repo["nameWithOwner"]
                 if repo_name not in repos:
                     repos[repo_name] = {
