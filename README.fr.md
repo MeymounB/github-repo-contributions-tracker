@@ -50,7 +50,7 @@ Ce script récupère tous les dépôts auxquels vous avez contribué sur GitHub 
 
      ```bash
      python -m venv venv
-     venv\Scriptsctivate
+     venv\Scripts\activate
      ```
 
    - Sur **macOS** et **Linux** :
