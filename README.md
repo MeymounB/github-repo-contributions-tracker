@@ -1,5 +1,8 @@
 # GitHub Contributions
 
+[![fr](https://img.shields.io/badge/lang-fr-blue.svg)](https://github.com/MeymounB/GitHub-Contributions/blob/main/README.fr.md)
+[![en](https://img.shields.io/badge/lang-en-white.svg)](https://github.com/MeymounB/GitHub-Contributions/blob/main/README.md)
+
 This project allows you to fetch and display GitHub repositories you have contributed to, using the GitHub GraphQL API. The script is configured to display the repositories in a table, with sorting and enhanced readability options.
 
 ## Project Overview

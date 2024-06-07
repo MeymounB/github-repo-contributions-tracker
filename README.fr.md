@@ -1,5 +1,7 @@
 # Contributions aux dépôts GitHub
 
+[![en](https://img.shields.io/badge/lang-en-white.svg)](https://github.com/MeymounB/GitHub-Contributions/blob/main/README.md)
+
 Ce projet permet de récupérer et d'afficher les dépôts GitHub sur lesquels vous avez contribué, en utilisant l'API GraphQL de GitHub. Le script est configuré pour afficher les dépôts dans un tableau, avec des options de tri et de lisibilité améliorée.
 
 ## Aperçu du projet
