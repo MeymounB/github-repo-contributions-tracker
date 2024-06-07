@@ -1,30 +1,30 @@
+import os
 import requests
 import pandas as pd
 import matplotlib.pyplot as plt
 from dotenv import load_dotenv
-import os
 
 # Load environment variables from .env file
 load_dotenv()
 
 # GitHub GraphQL endpoint
-url = "https://api.github.com/graphql"
+URL = "https://api.github.com/graphql"
 
 # Read the GitHub personal access token and sorting criteria from .env
-token = os.getenv("GITHUB_TOKEN")
-sorted_by = os.getenv("SORT_BY", "Owner")
-better_readability = os.getenv("BETTER_READABILITY", "false").lower() == "true"
+TOKEN = os.getenv("GITHUB_TOKEN")
+SORT_BY = os.getenv("SORT_BY", "Owner")
+BETTER_READABILITY = os.getenv("BETTER_READABILITY", "true").lower() == "true"
 
-if not token:
+if not TOKEN:
     raise ValueError("GitHub token not found. Please set GITHUB_TOKEN in your .env file.")
 
 # Debugging output
-print(f"Using GitHub token: {token[:4]}... (hidden for security)")
-print(f"Sorting by: {sorted_by}")
-print(f"Better readability: {better_readability}")
+print(f"Using GitHub token: {TOKEN[:4]}... (hidden for security)")
+print(f"Sorting by: {SORT_BY}")
+print(f"Better readability: {BETTER_READABILITY}")
 
 # GraphQL query template
-query = """
+QUERY = """
 query ($cursor: String) {
   viewer {
     repositoriesContributedTo(first: 100, contributionTypes: [COMMIT, ISSUE, PULL_REQUEST, REPOSITORY], includeUserRepositories: true, after: $cursor) {
@@ -52,25 +52,26 @@ query ($cursor: String) {
 }
 """
 
-headers = {
-    "Authorization": f"Bearer {token}"
+HEADERS = {
+    "Authorization": f"Bearer {TOKEN}"
 }
 
 def run_query(query, variables):
-    response = requests.post(url, json={'query': query, 'variables': variables}, headers=headers)
+    """Run a GraphQL query with the given variables."""
+    response = requests.post(URL, json={'query': query, 'variables': variables}, headers=HEADERS)
     if response.status_code == 200:
         return response.json()
-    else:
-        raise Exception(f"Query failed to run by returning code of {response.status_code}. {response.text}")
+    raise Exception(f"Query failed to run by returning code of {response.status_code}. {response.text}")
 
 def fetch_repos():
+    """Fetch all repositories the user has contributed to."""
     all_repos = []
     cursor = None
     has_next_page = True
 
     while has_next_page:
         variables = {"cursor": cursor}
-        result = run_query(query, variables)
+        result = run_query(QUERY, variables)
         
         if 'errors' in result:
             for error in result['errors']:
@@ -91,32 +92,24 @@ def fetch_repos():
 
     return all_repos
 
-def add_blank_rows(df, sort_by, better_readability):
+def add_blank_rows(df, sorted_by, better_readability):
+    """Add blank rows for better readability."""
     blank_row = pd.DataFrame([["_", "_", "_", "_", "_"]], columns=df.columns)
-    double_blank_row = pd.DataFrame([["_", "_", "_", "_", "_"], ["_", "_", "_", "_", "_"]], columns=df.columns)
     new_df = pd.DataFrame(columns=df.columns)
-    current_sort_value = None
-    current_owner = None
-    
+    current_prefix = None
     for _, row in df.iterrows():
-        sort_value = row[sort_by]
-        owner = row['Owner']
-        
-        if better_readability and owner != current_owner:
-            if current_owner is not None:
+        name_prefix = row[sorted_by]
+        if name_prefix != current_prefix:
+            if current_prefix is not None:
                 new_df = pd.concat([new_df, blank_row], ignore_index=True)
-            current_owner = owner
-
-        if sort_value != current_sort_value:
-            if current_sort_value is not None:
-                new_df = pd.concat([new_df, double_blank_row if better_readability else blank_row], ignore_index=True)
-            current_sort_value = sort_value
-        
+                if better_readability:
+                    new_df = pd.concat([new_df, blank_row], ignore_index=True)
+            current_prefix = name_prefix
         new_df = pd.concat([new_df, pd.DataFrame([row], columns=df.columns)], ignore_index=True)
-
     return new_df
 
-def display_repos(sorted_by="Owner"):
+def display_repos(sorted_by, better_readability):
+    """Fetch and display repositories in a sorted and readable format."""
     repos = fetch_repos()
 
     data = []
@@ -132,11 +125,11 @@ def display_repos(sorted_by="Owner"):
 
     df = pd.DataFrame(data)
 
-    # Sorting the DataFrame by the main criterion and then by owner
+    # Sorting the DataFrame
     if sorted_by in ["Name", "Visibility", "Owner", "Is Fork", "Original Owner"]:
-        df = df.sort_values(by=[sorted_by, "Owner"])
+        df = df.sort_values(by=sorted_by)
 
-    # Adding blank rows between different groups if better_readability is enabled
+    # Adding blank rows between different name prefixes
     df = add_blank_rows(df, sorted_by, better_readability)
 
     print(df.to_string(index=False))
@@ -165,4 +158,4 @@ def display_repos(sorted_by="Owner"):
     plt.show()
 
 # Set the sorting criteria here: "Name", "Visibility", "Owner", "Is Fork", or "Original Owner"
-display_repos(sorted_by)
+display_repos(SORT_BY, BETTER_READABILITY)
