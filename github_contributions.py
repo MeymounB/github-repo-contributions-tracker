@@ -58,7 +58,7 @@ HEADERS = {
 
 def run_query(query, variables):
     """Run a GraphQL query with the given variables."""
-    response = requests.post(URL, json={'query': query, 'variables': variables}, headers=HEADERS)
+    response = requests.post(URL, json={'query': query, 'variables': variables}, headers=HEADERS, timeout=10)
     if response.status_code == 200:
         return response.json()
     raise ValueError(f"Query failed to run by returning code of {response.status_code}. {response.text}")
