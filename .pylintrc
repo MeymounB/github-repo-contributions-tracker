@@ -1,0 +1,19 @@
+[MESSAGES CONTROL]
+disable=
+    C0114,  # missing-module-docstring
+    C0116,  # missing-function-docstring
+    W0621,  # redefined-outer-name
+    C0301,  # line-too-long
+
+[FORMAT]
+max-line-length=100
+
+[DESIGN]
+max-args=5
+max-locals=15
+max-returns=6
+max-branches=12
+max-statements=50
+max-parents=7
+max-attributes=7
+max-public-methods=20
