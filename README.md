@@ -1,4 +1,4 @@
-# GitHub Contributions
+# GitHub Repo Contributions Tracker
 
 [![fr](https://img.shields.io/badge/lang-fr-blue.svg)](https://github.com/MeymounB/GitHub-Contributions/blob/main/README.fr.md)
 [![en](https://img.shields.io/badge/lang-en-white.svg)](https://github.com/MeymounB/GitHub-Contributions/blob/main/README.md)

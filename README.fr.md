@@ -1,4 +1,4 @@
-# Contributions aux dépôts GitHub
+# Tracker de contributions aux dépôts GitHub
 
 [![en](https://img.shields.io/badge/lang-en-white.svg)](https://github.com/MeymounB/GitHub-Contributions/blob/main/README.md)
 
