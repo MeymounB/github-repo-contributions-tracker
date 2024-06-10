@@ -40,7 +40,7 @@ This script fetches all the repositories you have contributed to on GitHub and d
 1. Clone the repository to your local machine:
 
    ```bash
-   git clone https://github.com/MeymounB/GitHub-Contributions.git
+   git clone https://github.com/MeymounB/github-repo-contributions-tracker.git
    cd github-repos-contributions
    ```
 
