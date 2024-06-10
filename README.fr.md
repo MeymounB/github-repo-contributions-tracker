@@ -40,7 +40,7 @@ Ce script récupère tous les dépôts auxquels vous avez contribué sur GitHub 
 1. Clonez le dépôt sur votre machine locale :
 
    ```bash
-   git clone https://github.com/MeymounB/GitHub-Contributions.git
+   git clone https://github.com/MeymounB/github-repo-contributions-tracker.git
    cd github-repos-contributions
    ```
 
